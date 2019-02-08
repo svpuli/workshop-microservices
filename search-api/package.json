@@ -1,0 +1,33 @@
+{
+  "name": "search-api",
+  "version": "1.0.0",
+  "description": "Search app main API. Serves the client app with news and gifs",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node-dev src/index.ts",
+    "build": "rm -rf dist && tsc",
+    "debug": "ts-node-dev --transpileOnly --inspect=0.0.0.0:5674 src/index.ts"
+  },
+  "author": "cryptotavares",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-helmet": "^4.0.0",
+    "koa-router": "^7.4.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5",
+    "typescript": "^3.3.1"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.48",
+    "@types/koa-bodyparser": "^4.2.1",
+    "@types/koa-helmet": "^3.1.2",
+    "@types/koa-router": "^7.0.39",
+    "@types/node": "^10.12.21",
+    "@types/request": "^2.48.1",
+    "@types/request-promise-native": "^1.0.15",
+    "ts-node": "^8.0.2",
+    "ts-node-dev": "^1.0.0-pre.32"
+  }
+}

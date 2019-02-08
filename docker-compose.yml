@@ -1,0 +1,64 @@
+version: '3'
+services:
+  giphy-api:
+    build: giphy-api/.
+    command: npm run debug
+    depends_on:
+      - registrator
+    ports:
+      - "4000:4000"
+      - "5574:5574"
+    environment:
+      - NODE_ENV=development
+      - ENV_ID=dev
+      - REGION_NAME=${USER}
+      - TSC_NONPOLLING_WATCHER=true
+    volumes:
+      - ./giphy-api:/app/
+
+  news-api:
+    build: news-api/.
+    command: npm run debug
+    depends_on:
+      - registrator
+    ports:
+      - "3000:3000"
+      - "5474:5474"
+    environment:
+      - NODE_ENV=development
+      - ENV_ID=dev
+      - REGION_NAME=${USER}
+      - TSC_NONPOLLING_WATCHER=true
+    volumes:
+      - ./news-api:/app/
+
+  search-api:
+    build: search-api/.
+    command: npm run debug
+    depends_on:
+      - registrator
+    ports:
+      - "5000:5000"
+      - "5674:5674"
+    environment:
+      - NODE_ENV=development
+      - ENV_ID=dev
+      - REGION_NAME=${USER}
+      - TSC_NONPOLLING_WATCHER=true
+    volumes:
+      - ./search-api:/app/
+
+  consul:
+    image: gliderlabs/consul-server
+    ports:
+      - "9500:8500"
+    command: -bootstrap
+
+  registrator:
+    image: gliderlabs/registrator
+    depends_on:
+      - consul
+    command: -internal consul://consul:8500
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+  
