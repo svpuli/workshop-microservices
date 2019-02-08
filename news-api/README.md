@@ -6,7 +6,7 @@ An example of a micro-service that searches for news.
 
 ### Installing
 
-Make sure you're logged in into Pipedrive's private NPM by simply run `npm install` to install all the required dependencies.
+Simply run `npm install` to install all the required dependencies.
 
 ### Writing & Running Code
 

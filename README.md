@@ -6,7 +6,7 @@ Workshop that bootstraps 3 microservices that will search for news and gifs.
 
 ### Installing
 
-Make sure you're logged in into Pipedrive's private NPM by simply run `npm install` to install all the required dependencies in all of the microservices.
+Simply run `npm install` to install all the required dependencies in all of the microservices.
 
 ### Writing & Running Code
 
