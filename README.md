@@ -1,6 +1,6 @@
-# workshop - microservice - is that easy?
+# Microservices - is that easy?
 
-microservices workshop. It bootstraps 3 microservices that will searcho for news and gifs.
+Workshop that bootstraps 3 microservices that will search for news and gifs.
 
 ## 🤘 Develop
 
