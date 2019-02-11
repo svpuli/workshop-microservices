@@ -11,6 +11,12 @@ ENV SERVICE_NAME=search-api \
 
 EXPOSE 5000 5674
 
-WORKDIR /app
+WORKDIR /usr/app
+
+COPY package.json .
+
+RUN npm install --quiet
+
+COPY . .
 
 CMD ["node", "dist/index.js"]
