@@ -48,6 +48,18 @@ services:
     volumes:
       - ./search-api:/app/
 
+  search-ui:
+    build: search-ui/.
+    depends_on:
+      - registrator
+    ports:
+      - 8080:80
+    environment:
+      - ENV_ID=dev
+      - TSC_NONPOLLING_WATCHER=true
+    volumes:
+      - ./search-ui:/var/www/html
+
   consul:
     image: gliderlabs/consul-server
     ports:
