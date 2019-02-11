@@ -53,6 +53,13 @@ services:
     ports:
       - "9500:8500"
     command: -bootstrap
+    environment:
+      - SERVICE_8400_IGNORE=true
+      - SERVICE_8300_IGNORE=true
+      - SERVICE_8301_IGNORE=true
+      - SERVICE_8302_IGNORE=true
+      - SERVICE_8500_IGNORE=true
+      - SERVICE_8600_IGNORE=true
 
   registrator:
     image: gliderlabs/registrator
