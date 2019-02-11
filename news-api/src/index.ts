@@ -8,7 +8,7 @@ import * as request from 'request-promise-native';
 import { NEWS_API_KEY } from './config';
 import * as qs from 'querystring';
 
-const DEFAULT_HTTP_PORT = 3000;
+const DEFAULT_HTTP_PORT = 3500;
 
 async function init() {
 	const app = new Koa();

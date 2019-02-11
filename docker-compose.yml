@@ -22,7 +22,7 @@ services:
     depends_on:
       - registrator
     ports:
-      - "3000:3000"
+      - "3500:3500"
       - "5474:5474"
     environment:
       - NODE_ENV=development
