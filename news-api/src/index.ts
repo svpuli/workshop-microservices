@@ -29,7 +29,7 @@ async function init() {
 			'X-Api-Key': NEWS_API_KEY
 		};
 
-		const url = `https://newsapi.org/v2/everything?${qs.stringify({ q: searchQuery, sortBy: 'publishedAt' })}`;
+		const url = `https://newsapi.org/v2/everything?${qs.stringify({ q: searchQuery, sortBy: 'publishedAt', sources:'the-new-york-times' })}`;
 
 		const response = await request(url, {
 			method: 'GET',
