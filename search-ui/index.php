@@ -41,12 +41,13 @@
                 <p>Enter a search term to search</p>
             <?php endif; ?>
 
-            <div class ="row">
+            <div class ="row" style="margin:5px;">
 
             <!-- Card news -->
-            <div class ="col-md-6">
+            <div class ="col-md-6" style="border-style:groove;">
                 <div class="row">
-                    <?php if ($searchFor && $data): ?>
+                    <h5 class="col-sm-12 display-4" style="text-align:center;" >News API</h5>
+                    <?php if ($searchFor && !empty($data->news)): ?>
                         <?php foreach($data->news as $news): ?>
                             <div class="col-sm-4 py-2">
                                 <div class="card" style="min-height:50%!important;">
@@ -66,15 +67,18 @@
                                 </div>
                             </div>
                         <?php endforeach; ?>
+                    <?php else: ?>
+                        <p class="col-sm-12 display-5" style="text-align:center;" >Sorry, no results found</p>
                     <?php endif; ?>
                 </div>
             </div>
             <!-- Card news -->
             
             <!-- Card GIFs -->  
-            <div class ="col-md-6">
+            <div class ="col-md-6" style="border-style:groove;">
                 <div class="row">
-                    <?php if ($searchFor && $data): ?>
+                    <h5 class="col-sm-12 display-4" style="text-align:center;" >Giphy API</h5>
+                    <?php if ($searchFor && !empty($data->gifs->data)): ?>
                         <?php foreach($data->gifs->data as $gifs): ?>
                             <div class="col-sm-4 py-2">
                                 <div class="card">
@@ -82,6 +86,8 @@
                                 </div>
                             </div>
                         <?php endforeach; ?>
+                    <?php else: ?>
+                        <p class="col-sm-12 display-5" style="text-align:center;" >Sorry, no results found</p>
                     <?php endif; ?>
                 </div>
             </div>
