@@ -30,11 +30,11 @@ async function init() {
 			ctx.throw(400);
 		}
 
-		const headers ={
+		const headers = {
 			'X-Api-Key': NEWS_API_KEY
 		};
 
-		const url = `https://newsapi.org/v2/everything?${qs.stringify({ q: searchQuery })}`;
+		const url = `https://newsapi.org/v2/everything?${qs.stringify({ q: searchQuery, sortBy: 'publishedAt' })}`;
 
 		const response = await request(url, {
 			method: 'GET',
