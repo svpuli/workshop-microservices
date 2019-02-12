@@ -5,11 +5,11 @@ import * as bodyparser from 'koa-bodyparser';
 import * as helmet from 'koa-helmet';
 import { AddressInfo } from 'net';
 import * as request from 'request-promise-native';
-//import { GIPHY_API_KEY } from './config';
 import * as qs from 'querystring';
-import { GIPHY_API_KEY } from './config';
 
 const DEFAULT_HTTP_PORT = 4000;
+const GIPHY_API_KEY = 'XUqFqVY3Bxwvvh9siipzWxNelAZjfhSa';
+
 
 async function init() {
 	const app = new Koa();
@@ -19,9 +19,7 @@ async function init() {
 	app.use(helmet());
 
 	// health-check route
-	router.get('/health-check', async (ctx: any) => {
-		ctx.status = 200;
-	});
+	router.get('/health-check', (ctx) => ctx.status = 200);
 
 	router.get('/gifs', async (ctx: any, _next: any) => {
 		const searchQuery = ctx.query.search;

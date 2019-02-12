@@ -5,10 +5,10 @@ import * as bodyparser from 'koa-bodyparser';
 import * as helmet from 'koa-helmet';
 import { AddressInfo } from 'net';
 import * as request from 'request-promise-native';
-import { NEWS_API_KEY } from './config';
 import * as qs from 'querystring';
 
 const DEFAULT_HTTP_PORT = 3500;
+const NEWS_API_KEY = '152633accf0243dcac0e3379c52cfb52';
 
 async function init() {
 	const app = new Koa();
@@ -18,9 +18,7 @@ async function init() {
 	app.use(helmet());
 
 	// health-check route
-	router.get('/health-check', async (ctx) => {
-		ctx.status = 200;
-	});
+	router.get('/health-check', (ctx) => ctx.status = 200);
 
 	// search for news route
 	router.get('/news', async (ctx) => {
@@ -55,9 +53,7 @@ async function init() {
 	app.use(router.routes());
 
 	// Default response
-	app.use(ctx => {
-		ctx.body = 'Route not found';
-	});
+	app.use(ctx => ctx.body = 'Route not found');
 
 	// And finally start the HTTP server
 	const server: Server = await app.listen(DEFAULT_HTTP_PORT);
