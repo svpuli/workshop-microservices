@@ -17,18 +17,18 @@ async function init() {
 	app.use(helmet());
 
 	// health-check route
-	router.get('/health-check', async (ctx) => {
+	router.get('/health-check', async (ctx: any) => {
 		ctx.status = 200;
 	});
 
-	router.get('/search', async (ctx, _next) => {
+	router.get('/search', async (ctx: any, _next: any) => {
 		const searchQuery = ctx.query.q;
 
 		if (!searchQuery || !('string' === typeof searchQuery)) {
 			ctx.throw(400);
 		}
 
-		const newsUrl = `http://news-api:3000/news?${qs.stringify({ search: searchQuery })}`;
+		const newsUrl = `http://news-api:3500/news?${qs.stringify({ search: searchQuery })}`;
 		const gifsUrl = `http://giphy-api:4000/gifs?${qs.stringify({ search: searchQuery })}`;
 
 		try {
@@ -56,7 +56,7 @@ async function init() {
 	app.use(router.routes());
 
 	// response
-	app.use(ctx => {
+	app.use((ctx: any) => {
 		ctx.body = 'Route not found';
 	});
 
