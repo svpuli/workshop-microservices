@@ -25,27 +25,33 @@ async function init() {
 
 		const newsUrl = `http://news-api:3500/news?${qs.stringify({ search: searchQuery })}`;
 		const gifsUrl = `http://giphy-api:4000/gifs?${qs.stringify({ search: searchQuery })}`;
+		let newsResponse;
+		let gifsResponse;
 
 		try {
-			const newsResponse = await request(newsUrl, {
+			newsResponse = await request(newsUrl, {
 				method: 'GET',
 				json: true,
 			});
 
-			const gifsResponse = await request(gifsUrl, {
-				method: 'GET',
-				json: true,
-			});
-
-			ctx.body = {
-				success: true,
-				news: newsResponse.searchResults,
-				gifs: gifsResponse.searchResults
-			};
 		} catch (error) {
 			console.log(error);
-			ctx.throw(error.statusCode);
 		}
+
+		try {
+			gifsResponse = await request(gifsUrl, {
+				method: 'GET',
+				json: true,
+			});
+		} catch (error) {
+			console.log(error);
+		}
+
+		ctx.body = {
+			success: true,
+			news: newsResponse ? newsResponse.searchResults : [],
+			gifs: gifsResponse ? gifsResponse.searchResults : []
+		};
 	});
 
 	app.use(router.routes());
@@ -62,4 +68,3 @@ async function init() {
 };
 
 init();
-
