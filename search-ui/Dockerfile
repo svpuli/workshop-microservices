@@ -6,7 +6,7 @@ ENV SERVICE_NAME=search-ui \
     SERVICE_TAGS='micro-service,search-ui' \
     SERVICE_CHECK_HTTP=/health-check.php \
     SERVICE_CHECK_INTERVAL=15s \
-    SERVICE__CHECK_TIMEOUT=2s  
+    SERVICE_CHECK_TIMEOUT=2s  
 
 WORKDIR /usr/app
 

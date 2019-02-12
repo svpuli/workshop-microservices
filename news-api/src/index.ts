@@ -17,11 +17,6 @@ async function init() {
 	app.use(bodyparser());
 	app.use(helmet());
 
-	// health-check route
-	router.get('/health-check', async (ctx) => {
-		ctx.status = 200;
-	});
-
 	// search for news route
 	router.get('/news', async (ctx) => {
 		const searchQuery = ctx.query.search;
