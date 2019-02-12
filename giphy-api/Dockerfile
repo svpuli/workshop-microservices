@@ -8,12 +8,6 @@ ENV SERVICE_NAME=giphy-api \
 
 EXPOSE 4000 5574
 
-WORKDIR /usr/app
+WORKDIR /app
 
-COPY package.json .
-
-RUN npm install --quiet
-
-COPY . .
-
-CMD ["node", "dist/index.js"]
+CMD ["/app/run.sh"]

@@ -8,12 +8,6 @@ ENV SERVICE_NAME=news-api \
 
 EXPOSE 3500 5474
 
-WORKDIR /usr/app
+WORKDIR /app
 
-COPY package.json .
-
-RUN npm install --quiet
-
-COPY . .
-
-CMD ["node", "dist/index.js"]
+CMD ["/app/run.sh"]

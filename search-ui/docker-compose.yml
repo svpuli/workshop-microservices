@@ -3,12 +3,7 @@ services:
   search-ui:
     build: .
     ports:
-      - "8080:80"
-    environment:
-      - NODE_ENV=development
-      - ENV_ID=dev
-      - REGION_NAME=${USER}
-      - TSC_NONPOLLING_WATCHER=true
+      - 8080:80
     network_mode: bridge
     volumes:
       - .:/var/www/html
