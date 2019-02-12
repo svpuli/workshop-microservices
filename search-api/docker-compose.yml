@@ -2,17 +2,9 @@ version: '2.1'
 services:
   search-api:
     build: .
-    command: npm run debug
     ports:
-      - "5000:5000"
-      - "5674:5674"
-    environment:
-      - NODE_ENV=development
-      - ENV_ID=dev
-      - REGION_NAME=${USER}
-      - TSC_NONPOLLING_WATCHER=true
+      - 5000:5000 # http server port
+      - 5674:5674 # node debugger port
     network_mode: bridge
     volumes:
-      - .:/app/
-    volumes_from:
-      - container:configs-volume:ro
+      - .:/app

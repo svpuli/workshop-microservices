@@ -2,17 +2,9 @@ version: '2.1'
 services:
   news-api:
     build: .
-    command: npm run debug
     ports:
-      - "3000:3000"
-      - "5474:5474"
-    environment:
-      - NODE_ENV=development
-      - ENV_ID=dev
-      - REGION_NAME=${USER}
-      - TSC_NONPOLLING_WATCHER=true
+      - 3000:3000
+      - 5474:5474
     network_mode: bridge
     volumes:
-      - .:/app/
-    volumes_from:
-      - container:configs-volume:ro
+      - .:/app

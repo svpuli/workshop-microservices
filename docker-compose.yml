@@ -1,78 +1,66 @@
 version: '3'
 services:
+
+  # "microservices"
+  # --------------------------------------------------------------------------------------
+
   giphy-api:
     build: giphy-api/.
-    command: npm run debug
-    depends_on:
-      - registrator
     ports:
-      - "4000:4000"
-      - "5574:5574"
-    environment:
-      - NODE_ENV=development
-      - ENV_ID=dev
-      - REGION_NAME=${USER}
-      - TSC_NONPOLLING_WATCHER=true
+      - 4000:4000
+      - 5574:5574
     volumes:
       - ./giphy-api:/app/
+    depends_on:
+      - registrator
 
   news-api:
     build: news-api/.
-    command: npm run debug
-    depends_on:
-      - registrator
     ports:
-      - "3500:3500"
-      - "5474:5474"
-    environment:
-      - NODE_ENV=development
-      - ENV_ID=dev
-      - REGION_NAME=${USER}
-      - TSC_NONPOLLING_WATCHER=true
+      - 3500:3500
+      - 5474:5474
     volumes:
       - ./news-api:/app/
+    depends_on:
+      - registrator
 
   search-api:
     build: search-api/.
-    command: npm run debug
-    depends_on:
-      - registrator
     ports:
-      - "5000:5000"
-      - "5674:5674"
-    environment:
-      - NODE_ENV=development
-      - ENV_ID=dev
-      - REGION_NAME=${USER}
-      - TSC_NONPOLLING_WATCHER=true
+      - 5000:5000
+      - 5674:5674
     volumes:
       - ./search-api:/app/
+    depends_on:
+      - registrator
 
   search-ui:
     build: search-ui/.
-    depends_on:
-      - registrator
     ports:
       - 8080:80
-    environment:
-      - ENV_ID=dev
-      - TSC_NONPOLLING_WATCHER=true
     volumes:
       - ./search-ui:/var/www/html
+    depends_on:
+      - registrator
 
+  # "infrastructure" services
+  # --------------------------------------------------------------------------------------
+
+  # consul is the service that's responsbile for service discovery
   consul:
     image: gliderlabs/consul-server
     ports:
-      - "9500:8500"
+      - 9500:8500
     command: -bootstrap
     environment:
-      - SERVICE_8400_IGNORE=true
-      - SERVICE_8300_IGNORE=true
-      - SERVICE_8301_IGNORE=true
-      - SERVICE_8302_IGNORE=true
-      - SERVICE_8500_IGNORE=true
-      - SERVICE_8600_IGNORE=true
+      SERVICE_8400_IGNORE: 'true'
+      SERVICE_8300_IGNORE: 'true'
+      SERVICE_8301_IGNORE: 'true'
+      SERVICE_8302_IGNORE: 'true'
+      SERVICE_8500_IGNORE: 'true'
+      SERVICE_8600_IGNORE: 'true'
 
+  # container watcher that registers services in consul
   registrator:
     image: gliderlabs/registrator
     depends_on:

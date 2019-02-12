@@ -1,0 +1,50 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "search-api (debug)",
+            "port": 5674,
+            "restart": true,
+            "protocol": "inspector",
+            "sourceMapPathOverrides": {
+                "/app/*": "${workspaceRoot}/search-api/*"
+            }
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "giphy-api (debug)",
+            "port": 5574,
+            "restart": true,
+            "protocol": "inspector",
+            "sourceMapPathOverrides": {
+                "/app/*": "${workspaceRoot}/giphy-api/*"
+            }
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "news-api (debug)",
+            "port": 5574,
+            "restart": true,
+            "protocol": "inspector",
+            "sourceMapPathOverrides": {
+                "/app/*": "${workspaceRoot}/news-api/*"
+            }
+        },
+        {
+            "name": "search-ui (debug)",
+            "type": "php",
+            "request": "launch",
+            "log": true,
+            "pathMappings": {
+                "/var/www/html": "${workspaceRoot}/search-ui/"
+            }
+        }
+    ]
+}
