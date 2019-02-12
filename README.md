@@ -96,7 +96,7 @@ As so, we are going to change our current services so that the `search-api` serv
 
 **Tasks to do:**
 * Access directly the `news-api` and `giphy-api` services and check that each one returns a valid response.
-    * http://localhost:3000/news?search=<YOUR_SEARCH>
+    * http://localhost:3500/news?search=<YOUR_SEARCH>
     * http://localhost:4000/gifs?search=<YOUR_SEARCH>
 
 * Edit `docker-compose.yml` and remove the port mapping for `news-api` and `giphy-api`.
