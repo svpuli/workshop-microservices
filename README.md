@@ -53,7 +53,7 @@ This does not seem to be right as **news** and **gifs** are completely different
     * Change `search-api` to request `news-api` and `giphy-api` instead of requesting the external services **newsapi.org** and **api.giphy.com**
     ```js
 	const newsUrl = `http://news-api:3500/news?${qs.stringify({ search: searchQuery })}`;
-	const gifsUrl = `http://giphy-api:4000/gifs?${qs.stringify{ search: searchQuery })}`;
+	const gifsUrl = `http://giphy-api:4000/gifs?${qs.stringify({ search: searchQuery })}`;
 	let newsResponse;
 	let gifsResponse;
 
