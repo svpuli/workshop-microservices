@@ -25,7 +25,7 @@
     </head>
 
     <body>
-        <div class="container">
+        <div class="container-fluid">
             <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
                 <a class="navbar-brand" href="#">Search Center</a>
             </nav>
@@ -37,27 +37,29 @@
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
 
-            <div class ="container">
-                <div class="row">
+            <?php if (!$searchFor): ?>
+                <p>Enter a search term to search</p>
+            <?php endif; ?>
 
-                    <?php if (!$searchFor): ?>
-                        <p>Enter a search term to search</p>
-                    <?php endif; ?>
-                    
-                    <!-- Card news -->
+            <div class ="row">
+
+            <!-- Card news -->
+            <div class ="col-md-6">
+                <div class="row">
                     <?php if ($searchFor && $data): ?>
                         <?php foreach($data->news as $news): ?>
                             <div class="col-sm-4 py-2">
-                                <div class="card" style="height:45%!important;">
+                                <div class="card" style="min-height:50%!important;">
                                     <img src="<?php print $news->urlToImage;?>" style="height: 200px;" class="card-img-top" alt="...">
                                     <div class="card-body">
-                                        <h4 class="card-title"><?php print $news->source->name; ?></h5>
-                                        <h4 class="card-title"><?php print $news->title; ?></h4>
-                                        <h6 class="card-title"><?php print  date_format(date_create($news->publishedAt), 'd-m-Y'); ?></h6>
-                                        <p class="card-text"> <?php print $news->description; ?> </p>
-                                        <a  href="<?php print $news->url;?>" 
+                                        <h6 class="card-title"><?php print $news->source->name; ?></h6>
+                                        <h5 class="card-title"><?php print $news->title; ?></h5>
+                                        <h6 class="card-title" style="font-size:11px;" ><?php print  date_format(date_create($news->publishedAt), 'd-m-Y'); ?></h6>
+                                        <p class="card-text" style="font-size:smaller;"> <?php print $news->description; ?> </p>
+                                        <a  href="<?php print $news->url;?>"
+                                            style="position:absolute; bottom:10px; width:90%;"
                                             class="btn btn-primary btn-lg btn-block" 
-                                            style="position:absolute; bottom:10px; width:90%;">
+                                            target="_blank" >
                                             Read
                                         </a>
                                     </div>
@@ -65,10 +67,28 @@
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
-                    <!-- Card news -->
-
                 </div>
             </div>
+            <!-- Card news -->
+            
+            <!-- Card GIFs -->  
+            <div class ="col-md-6">
+                <div class="row">
+                    <?php if ($searchFor && $data): ?>
+                        <?php foreach($data->gifs->data as $gifs): ?>
+                            <div class="col-sm-4 py-2">
+                                <div class="card">
+                                    <img src="<?php print $gifs->images->fixed_height->url ?>" style="height: 200px;" class="card-img-top" alt="...">
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <!-- Card GIFs -->
+
+            </div>
+
         </div>
     </body>
 </html>
