@@ -52,29 +52,34 @@ This does not seem to be right as **news** and **gifs** are completely different
 * Change the `search-api` service to start requesting both the `news-api` and the `giphy-api` services.
     * Change `search-api` to request `news-api` and `giphy-api` instead of requesting the external services **newsapi.org** and **api.giphy.com**
     ```js
-	const newsUrl = `http://news-api:3000/news?{qs.stringify({ search: searchQuery })}`;
-	const gifsUrl = `http://giphy-api:4000/gifs?{qs.stringify({ search: searchQuery })}`;
+	const newsUrl = `http://news-api:3500/news?${qs.stringify({ search: searchQuery })}`;
+	const gifsUrl = `http://giphy-api:4000/gifs?${qs.stringify{ search: searchQuery })}`;
+	let newsResponse;
+	let gifsResponse;
 
 	try {
-		const newsResponse = await reques(newsUrl, {
+		newsResponse = await request(newsUrl, {
 			method: 'GET',
 			json: true,
 		});
-
-		const gifsResponse = await reques(gifsUrl, {
-			method: 'GET',
-			json: true,
-		});
-
-		ctx.body = {
-			success: true,
-			news: newsResponse.searchResults,
-			gifs: gifsResponse.searchResults
-		};
 	} catch (error) {
 		console.log(error);
-		ctx.throw(error.statusCode);
 	}
+
+	try {
+		gifsResponse = await request(gifsUrl, {
+			method: 'GET',
+			json: true,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+
+	ctx.body = {
+		success: true,
+		news: newsResponse ?newsResponse.searchResults : [],
+		gifs: gifsResponse ?gifsResponse.searchResults : []
+	};
     ```
 * Scale the `news-api` service to 2 instances.
     * Edit docker-compose.yml
@@ -134,7 +139,7 @@ docker-compose up --build
 
 * Change `news-api` GET /news endpoint to only return news from everywhere (currently it is only retrieving news from the
 _The New York Times_).
-    * remove _**sources=the-new-york-times&**_ from the request url.
+    * remove _**sources: 'the-new-york-times'**_ from the request url.
     ```js
     const url = `https://newsapi.org/v2/everything?${qs.stringify({ q: searchQuery })}`;
     ```
