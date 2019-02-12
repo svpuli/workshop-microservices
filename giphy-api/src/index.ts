@@ -19,11 +19,11 @@ async function init() {
 	app.use(helmet());
 
 	// health-check route
-	router.get('/health-check', async (ctx) => {
+	router.get('/health-check', async (ctx: any) => {
 		ctx.status = 200;
 	});
 
-	router.get('/gifs', async (ctx, _next) => {
+	router.get('/gifs', async (ctx: any, _next: any) => {
 		const searchQuery = ctx.query.search;
 
 		if (!searchQuery || !('string' === typeof searchQuery)) {
@@ -50,7 +50,7 @@ async function init() {
 	app.use(router.routes());
 
 	// response
-	app.use(ctx => {
+	app.use((ctx: any) => {
 		ctx.body = 'Route not found';
 	});
 
