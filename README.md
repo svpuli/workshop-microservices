@@ -95,6 +95,14 @@ In a microservices architecture, ideally there should a be a single point of ent
 As so, we are going to change our current services so that the `search-api` service becomes our single point of entry -> ***news*** and ***gifs*** will be searched via `search-api`.
 
 **Tasks to do:**
+* git checkout branch fapi-gateway
+```sh
+git checkout api-gateway
+```
+* Rebuild the project
+```sh
+docker-compose up --build
+```
 * Access directly the `news-api` and `giphy-api` services and check that each one returns a valid response.
     * http://localhost:3500/news?search=<YOUR_SEARCH>
     * http://localhost:4000/gifs?search=<YOUR_SEARCH>
