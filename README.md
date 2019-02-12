@@ -162,9 +162,7 @@ docker-compose up --build
     * Add the health-check route before any other route.
     ```js
     // health-check route
-    router.get('/health-check', async (ctx) => {
-    	ctx.status = 200;
-    });
+	router.get('/health-check', (ctx) => ctx.status = 200);
     ```
 
 * Add health check configurations to each service **Dockerfile**
