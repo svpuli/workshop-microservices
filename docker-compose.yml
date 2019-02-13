@@ -27,8 +27,6 @@ services:
       - 5674:5674
     volumes:
       - ./search-api:/app/
-    depends_on:
-      - registrator
 
   search-ui:
     build: search-ui/.
