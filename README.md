@@ -49,6 +49,14 @@ Currently `search-api` service is requesting both **news** and **gifs** directly
 This does not seem to be right as **news** and **gifs** are completely different things and as so might have completely different requirements.
 
 **Tasks to do:**
+* git checkout branch start-workshop
+```sh
+git checkout start-workshop
+```
+* Rebuild the project
+```sh
+docker-compose up --build
+```
 * Change the `search-api` service to start requesting both the `news-api` and the `giphy-api` services.
     * Change `search-api` to request `news-api` and `giphy-api` instead of requesting the external services **newsapi.org** and **api.giphy.com**
     ```js
@@ -85,7 +93,7 @@ This does not seem to be right as **news** and **gifs** are completely different
     * Edit docker-compose.yml
     ```docker
     deploy:
-        replicas: 3
+        replicas: 2
     ```
 
 ### 2.API Gateway <a id="part2"/>
@@ -95,7 +103,7 @@ In a microservices architecture, ideally there should a be a single point of ent
 As so, we are going to change our current services so that the `search-api` service becomes our single point of entry -> ***news*** and ***gifs*** will be searched via `search-api`.
 
 **Tasks to do:**
-* git checkout branch fapi-gateway
+* git checkout branch api-gateway
 ```sh
 git checkout api-gateway
 ```
