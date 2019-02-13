@@ -23,17 +23,27 @@ async function init() {
 			ctx.throw(400);
 		}
 
-		const newsUrl = `http://news-api:3500/news?${qs.stringify({ search: searchQuery })}`;
-		const gifsUrl = `http://giphy-api:4000/gifs?${qs.stringify({ search: searchQuery })}`;
+		const newsUrl = `https://newsapi.org/v2/everything?${qs.stringify({ q: searchQuery, sortBy: 'publishedAt', sources: 'the-new-york-times' })}`;
+		const gifsUrl = `https://api.giphy.com/v1/gifs/search?${qs.stringify({ q: searchQuery, api_key: 'XUqFqVY3Bxwvvh9siipzWxNelAZjfhSa' })}`;
 		let newsResponse;
 		let gifsResponse;
 
 		try {
-			newsResponse = await request(newsUrl, {
+			const headers = {
+				'X-Api-Key': '152633accf0243dcac0e3379c52cfb52'
+			};
+
+			const response = await request(newsUrl, {
 				method: 'GET',
+				headers,
 				json: true,
 			});
 
+			if (!(response.status === 'ok')) {
+				ctx.throw(400);
+			}
+
+			newsResponse = response.articles;
 		} catch (error) {
 			console.log(error);
 		}
@@ -49,8 +59,8 @@ async function init() {
 
 		ctx.body = {
 			success: true,
-			news: newsResponse ? newsResponse.searchResults : [],
-			gifs: gifsResponse ? gifsResponse.searchResults : []
+			news: newsResponse ? newsResponse : [],
+			gifs: gifsResponse ? gifsResponse : []
 		};
 	});
 
