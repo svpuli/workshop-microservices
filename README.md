@@ -53,13 +53,23 @@ This does not seem to be right as **news** and **gifs** are completely different
 ```sh
 git checkout start-workshop
 ```
-* Rebuild the project
+* Build the project
 ```sh
 docker-compose up --build
 ```
+* On your search-ui (on the browser access http://localhost:8080) and try search for _Trump_
+
 * Change the `search-api` service to start requesting both the `news-api` and the `giphy-api` services.
     * Change `search-api` to request `news-api` and `giphy-api` instead of requesting the external services **newsapi.org** and **api.giphy.com**
     ```js
+    // on index.ts replace the router Get /search by the following code
+
+    const searchQuery = ctx.query.q;
+
+	if (!searchQuery || !('string' === typeof searchQuery)) {
+		ctx.throw(400);
+	}
+
 	const newsUrl = `http://news-api:3500/news?${qs.stringify({ search: searchQuery })}`;
 	const gifsUrl = `http://giphy-api:4000/gifs?${qs.stringify({ search: searchQuery })}`;
 	let newsResponse;
@@ -89,8 +99,36 @@ docker-compose up --build
 		gifs: gifsResponse ?gifsResponse.searchResults : []
 	};
     ```
-* Scale the `news-api` service to 2 instances.
-    * Edit docker-compose.yml
+
+* On the search-ui try search for anything again. What are the results?
+
+* Stop the docker containers (on the console with the docker logs attach just hit `ctrl c` or open a new terminal in the workshop-sinfo dir and run `docker-compose down`)
+
+* Add the following configuration to the **docker-compose.yml**
+```docker
+  giphy-api:
+    build: giphy-api/.
+    ports:
+      - 4000:4000
+      - 5574:5574
+    volumes:
+      - ./giphy-api:/app/
+
+  news-api:
+    build: news-api/.
+    ports:
+      - 3500:3500
+      - 5474:5474
+    volumes:
+      - ./news-api:/app/
+```
+* Rebuild the project
+```sh
+docker-compose up --build
+```
+* On the search-ui try search for anything again. What are the results now?
+
+* Scale the `news-api` service to 2 instances and rebuild the project. Edit **docker-compose.yml** and add the following
     ```docker
     deploy:
         replicas: 2
