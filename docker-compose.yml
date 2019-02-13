@@ -4,22 +4,6 @@ services:
   # "microservices"
   # --------------------------------------------------------------------------------------
 
-  giphy-api:
-    build: giphy-api/.
-    ports:
-      - 4000:4000
-      - 5574:5574
-    volumes:
-      - ./giphy-api:/app/
-
-  news-api:
-    build: news-api/.
-    ports:
-      - 3500:3500
-      - 5474:5474
-    volumes:
-      - ./news-api:/app/
-
   search-api:
     build: search-api/.
     ports:
