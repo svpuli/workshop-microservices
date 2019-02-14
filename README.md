@@ -4,14 +4,6 @@ Welcome to the **Microservices - is that easy?** workshop.
 
 The goal of this workshop is to provide a general overview about the development challenges and bennefits in a Microservices architecture.
 
-**The workshop is devided in 2 main parts:**
- * Brief overview about Microservices and Docker - [slides](https://www.pipedrive.com)
- * Workshop - hands on:
-    * [Decomposition](#part1)
-    * [API gateway - limit exposure](#part2)
-    * [Fault tolerance and Service configuration](#part3)
-    * [Service discovery and Health check](#part4)
-
 ## System Requirements
 
 In order to successfully follow the workshop, the following tools/services must be previously installed:
@@ -30,13 +22,24 @@ node --version
 
 ## Setup
 
-You will need to start by cloning this repo, then you'll just have to spin up all the docker services. From your terminal, type:
+You will need to start by cloning this repo. From your terminal, type:
 
 ```sh
 git clone git@github.com:pipedrive/workshop-sinfo.git
 cd workshop-sinfo
-docker-compose up
 ```
+
+## Workshop Structure
+
+**The workshop is devided in 2 main parts:**
+ * Brief overview about Microservices and Docker - [slides](https://docs.google.com/presentation/d/1Y3XtRrfZ1vwey-KrdczxuqHkYFXNQIYxK9dDw2dXcJ4/edit?usp=sharing)
+ * Workshop - hands on:
+    - [1. Decomposition](#part1)
+    - [2. API gateway - limit exposure](#part2)
+    - [3. Fault tolerance and Service configuration](#part3)
+    - [4. Service discovery and Health check](#part4)
+
+Each step will have a given branch as checkpoint.
 
 ## 🤘 Time to start
 
@@ -44,16 +47,17 @@ docker-compose up
 
 As we have seen in the _**Brief overview about Microservices and Docker**_, microservices should be built accordingly with its own business logical capability.
 
-Currently `search-api` service is requesting both **news** and **gifs** directly to external providers (instead of making use of the `news-api` and `giphy-api` service).
+Currently `search-api` service is requesting both **news** and **gifs** directly from external providers (instead of making use of the `news-api` and `giphy-api` service).
 
 This does not seem to be right as **news** and **gifs** are completely different things and as so might have completely different requirements.
 
 **Tasks to do:**
-* git checkout branch start-workshop
+
+**1.1** checkout branch start-workshop
 ```sh
 git checkout start-workshop
 ```
-* Build the project
+**1.2**  download the docker images, build the project and spin up the containers 
 ```sh
 docker-compose up --build
 ```
