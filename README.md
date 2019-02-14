@@ -72,7 +72,7 @@ docker-compose up --build
 
 
 ```js
-// on src/index.ts replace the router Get /search by the following code
+// on search-api - src/index.ts replace the router Get /search by the following code
 
 const searchQuery = ctx.query.q;
 
@@ -137,7 +137,7 @@ giphy-api:
 ```sh
 docker-compose up --build
 ```
-**1.9** On the search-ui try search for anything again. What are the results now?
+**1.9** On the `search-ui` try search for anything again. What are the results now?
 
 **1.10** Scale the `news-api` service to 2 instances and rebuild the project. Edit **docker-compose.yml** and add the following
     
@@ -305,6 +305,10 @@ ctx.status = 503;
 ```
 
 🏁
+
+### Feedback
+In order to improve future workshops your feedback is really important for us - [workshop survey](https://docs.google.com/forms/d/e/1FAIpQLSdqhIOipsE_DS1lwpDFUveAJcq74GH_AJvi6A1KdrumRyMWlA/viewform?usp=sf_link)
+
 ---
 
 💚 [Pipedrive](https://www.pipedrive.com) workshop
