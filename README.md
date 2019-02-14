@@ -1,8 +1,8 @@
-# Microservices - is that easy?
+# Microservices - it's that easy?
 
 Welcome to the **Microservices - is that easy?** workshop.
 
-The goal of this workshop is to provide a general overview about the development challenges and bennefits in a Microservices architecture.
+The goal of this workshop is to provide a general overview about the development challenges and benefits in a Microservices architecture.
 
 ## System Requirements
 
@@ -12,7 +12,7 @@ In order to successfully follow the workshop, the following tools/services must 
  * [Node](https://nodejs.org/en/download/) v10.15.0 or greater
     * Node can also be installed via nvm - [Linux and MacOs instructions](https://gist.github.com/d2s/372b5943bce17b964a79) & [Windows instructions](https://github.com/coreybutler/nvm-windows)
 
-All these should be available in your **PATH**. To verify things are set up properly, you can run this:
+All of these should be available in your PATH. To verify everything is set up properly, you can run the following commands:
 
 ```sh
 git --version
@@ -31,7 +31,7 @@ cd workshop-sinfo
 
 ## Workshop Structure
 
-**The workshop is devided in 2 main parts:**
+**The workshop is devided into two main parts:**
  * Brief overview about Microservices and Docker - [slides](https://docs.google.com/presentation/d/1Y3XtRrfZ1vwey-KrdczxuqHkYFXNQIYxK9dDw2dXcJ4/edit?usp=sharing)
  * Workshop - hands on:
     - [1. Decomposition](#part1)
@@ -39,7 +39,7 @@ cd workshop-sinfo
     - [3. Fault tolerance and Service configuration](#part3)
     - [4. Service discovery and Health check](#part4)
 
-Each step will have a given branch as checkpoint.
+Each step will have a given branch as a checkpoint.
 
 ## 🤘 Time to start
 
@@ -193,11 +193,11 @@ docker-compose up --build
 
 
 ### 3.Fault tolerance <a id="part3"/>
-When a microservice is failing, the overall application whould be able to keep working (even if at a reduced level). Also redeploying a new version of a specific service should have zero impact on the overall application.
+When a microservice is failing, the overall application should be able to keep working (even if at a reduced capacity). Also redeploying a new version of a specific service should have zero impact on the overall application.
 
 **Tasks to do:**
 
-**3.1** If you didn't finish the **API ateway** checkout branch fault-tolerance and rebuild the project.
+**3.1** If you didn't finish the **API Gateway** checkout branch fault-tolerance and rebuild the project.
 ```sh
 git checkout fault-tolerance
 docker-compose up --build
@@ -227,9 +227,9 @@ const url = `https://newsapi.org/v2/everything?${qs.stringify({ q: searchQuery }
 ```
 
 
-### 4.Service discover and health check <a id="part4"/>
-In a microservices architecture, the number of services is intended to grow up to a level where it impossible to rely on manual configuration for services to communicate with each other.
-Moreover services are constantly being scaled up and scaled down. This means that they will get available network IPs and assinged on the fly.
+### 4.Service discovery and health check <a id="part4"/>
+In a microservices architecture, the number of services is intended to grow up to a level where it is impossible to rely on manual configuration for services to communicate with each other.
+Moreover services are constantly being scaled up and scaled down. This means that they will get available Network IPs and assigned on the fly.
 
 The solution is **service discovery** and we are going to use Consul for that.
 
@@ -241,7 +241,7 @@ git checkout service-discovery
 docker-compose up --build
 ```
 
-**4.2** Add ``consul`` service  your service discover and ``registrator`` service.
+**4.2** For service discovery, add the ``consul`` and ``registrator`` services
 
 ![](https://raw.githubusercontent.com/pipedrive/workshop-sinfo/master/.png/workshop-sinfo-4.png "img4")
 
