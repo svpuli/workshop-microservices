@@ -43,8 +43,8 @@ Each step will have a given branch as checkpoint.
 
 ## 🤘 Time to start
 
-### 1.Decomposition <a id="part1"/>
 
+### 1.Decomposition <a id="part1"/>
 As we have seen in the _**Brief overview about Microservices and Docker**_, microservices should be built accordingly with its own business logical capability.
 
 Currently `search-api` service is requesting both **news** and **gifs** directly from external providers (instead of making use of the `news-api` and `giphy-api` service).
@@ -53,202 +53,257 @@ This does not seem to be right as **news** and **gifs** are completely different
 
 **Tasks to do:**
 
-**1.1** checkout branch start-workshop
+**1.1** Checkout branch start-workshop
 ```sh
 git checkout start-workshop
 ```
-**1.2**  download the docker images, build the project and spin up the containers 
+**1.2** Download the docker images, build the project and spin up the containers 
 ```sh
 docker-compose up --build
 ```
-* On your search-ui (on the browser access http://localhost:8080) and try search for _Trump_
+**1.3** On your browser access the `search-ui` in http://localhost:8080 and try search for _Trump_
 
-* Change the `search-api` service to start requesting both the `news-api` and the `giphy-api` services.
-    * Change `search-api` to request `news-api` and `giphy-api` instead of requesting the external services **newsapi.org** and **api.giphy.com**
-    ```js
-    // on index.ts replace the router Get /search by the following code
+**1.4** Change `search-api` service to start requesting through the `news-api` and the `giphy-api` services, instead of requesting directly the external services **newsapi.org** and **api.giphy.com** 
 
-    const searchQuery = ctx.query.q;
 
-	if (!searchQuery || !('string' === typeof searchQuery)) {
-		ctx.throw(400);
-	}
+![](https://raw.githubusercontent.com/pipedrive/workshop-sinfo/master/.png/workshop-sinfo-1.png "img1")
 
-	const newsUrl = `http://news-api:3500/news?${qs.stringify({ search: searchQuery })}`;
-	const gifsUrl = `http://giphy-api:4000/gifs?${qs.stringify({ search: searchQuery })}`;
-	let newsResponse;
-	let gifsResponse;
 
-	try {
-		newsResponse = await request(newsUrl, {
-			method: 'GET',
-			json: true,
-		});
-	} catch (error) {
-		console.log(error);
-	}
 
-	try {
-		gifsResponse = await request(gifsUrl, {
-			method: 'GET',
-			json: true,
-		});
-	} catch (error) {
-		console.log(error);
-	}
+```js
+// on src/index.ts replace the router Get /search by the following code
 
-	ctx.body = {
-		success: true,
-		news: newsResponse ?newsResponse.searchResults : [],
-		gifs: gifsResponse ?gifsResponse.searchResults : []
-	};
-    ```
+const searchQuery = ctx.query.q;
 
-* On the search-ui try search for anything again. What are the results?
+if (!searchQuery || !('string' === typeof searchQuery)) {
+	ctx.throw(400);
+}
 
-* Stop the docker containers (on the console with the docker logs attach just hit `ctrl c` or open a new terminal in the workshop-sinfo dir and run `docker-compose down`)
+const newsUrl = `http://news-api:3500/news?${qs.stringify({ search: searchQuery })}`;
+const gifsUrl = `http://giphy-api:4000/gifs?${qs.stringify({ search: searchQuery })}`;
+let newsResponse;
+let gifsResponse;
 
-* Add the following configuration to the **docker-compose.yml**
-```docker
+try {
+	newsResponse = await request(newsUrl, {
+		method: 'GET',
+		json: true,
+	});
+} catch (error) {
+	console.log(error);
+}
+
+try {
+	gifsResponse = await request(gifsUrl, {
+		method: 'GET',
+		json: true,
+	});
+} catch (error) {
+	console.log(error);
+}
+
+ctx.body = {
+	success: true,
+	news: newsResponse ? newsResponse.searchResults : [],
+	gifs: gifsResponse ? gifsResponse.searchResults : []
+};
+```
+
+**1.5** On the `search-ui` try to search for anything else. What are the results?
+
+**1.6** Stop the docker containers (on the console with the docker logs attach just hit `ctrl + c` or open a new terminal in the workshop-sinfo dir and run `docker-compose down`)
+
+**1.7** Add the following configuration to the **docker-compose.yml**
+```yaml
+giphy-api:
+  build: giphy-api/.
+  ports:
+    - 4000:4000
+    - 5574:5574 #node debugger
+  volumes:
+    - ./giphy-api:/app/
+
+ news-api:
+   build: news-api/.
+   ports:
+     - 3500:3500
+     - 5474:5474 #node debugger
+   volumes:
+    - ./news-api:/app/
+```
+
+**1.8** Rebuild the project
+```sh
+docker-compose up --build
+```
+**1.9** On the search-ui try search for anything again. What are the results now?
+
+**1.10** Scale the `news-api` service to 2 instances and rebuild the project. Edit **docker-compose.yml** and add the following
+    
+```yaml
+deploy:
+    replicas: 2
+```
+
+
+### 2.API Gateway <a id="part2"/>
+In a microservices architecture, ideally there should a be a single point of entry in order to access the back end services.
+
+As so, we are going to change our current services so that the `search-api` service becomes our single point of entry -> ***news*** and ***gifs*** will be searched via `search-api`.
+
+**Tasks to do:**
+
+**2.1** If you didn't finish the **Decomposition** checkout branch api-gateway and rebuild the project.
+```sh
+git checkout api-gateway
+docker-compose up --build
+```
+
+**2.2** Access directly the `news-api` and `giphy-api` services and check that each one returns a valid response.
+* http://localhost:3500/news?search=<YOUR_SEARCH>
+* http://localhost:4000/gifs?search=<YOUR_SEARCH>
+
+**2.3** Edit `docker-compose.yml` and remove the port mapping for `news-api` and `giphy-api`.
+
+![](https://raw.githubusercontent.com/pipedrive/workshop-sinfo/master/.png/workshop-sinfo-2.png "img2")
+
+```yaml
   giphy-api:
     build: giphy-api/.
     ports:
-      - 4000:4000
-      - 5574:5574
+      - 5574:5574 #node debugger
     volumes:
       - ./giphy-api:/app/
 
   news-api:
     build: news-api/.
     ports:
-      - 3500:3500
-      - 5474:5474
+      - 5474:5474 #node debugger
     volumes:
       - ./news-api:/app/
 ```
-* Rebuild the project
-```sh
-docker-compose up --build
-```
-* On the search-ui try search for anything again. What are the results now?
-
-* Scale the `news-api` service to 2 instances and rebuild the project. Edit **docker-compose.yml** and add the following
-    ```docker
-    deploy:
-        replicas: 2
-    ```
-
-### 2.API Gateway <a id="part2"/>
-
-In a microservices architecture, ideally there should a be a single point of entry in order to access the back end services.
-
-As so, we are going to change our current services so that the `search-api` service becomes our single point of entry -> ***news*** and ***gifs*** will be searched via `search-api`.
-
-**Tasks to do:**
-* git checkout branch api-gateway
-```sh
-git checkout api-gateway
-```
-* Rebuild the project
-```sh
-docker-compose up --build
-```
-* Access directly the `news-api` and `giphy-api` services and check that each one returns a valid response.
-    * http://localhost:3500/news?search=<YOUR_SEARCH>
-    * http://localhost:4000/gifs?search=<YOUR_SEARCH>
-
-* Edit `docker-compose.yml` and remove the port mapping for `news-api` and `giphy-api`.
-```docker
-ports:
-      - "5574:5574"
-```
-* Stop and rebuild the services
+**2.4** Stop the containers and rebuild the services
 ```sh
 docker-compose down
 docker-compose up --build
 ```
 
-* Confirm that the previous endpoints are no longer accessible but that the you can still request the results through `search-api` (`http://localhost:5000/search?q=<YOUR_SEARCH>`) or using the `search-ui` app
+**2.5** Confirm that the previous endpoints are no longer accessible but that the you can still request the results through `search-api` (`http://localhost:5000/search?q=<YOUR_SEARCH>`) or using the `search-ui` app
+
+
 
 ### 3.Fault tolerance <a id="part3"/>
-
 When a microservice is failing, the overall application whould be able to keep working (even if at a reduced level). Also redeploying a new version of a specific service should have zero impact on the overall application.
 
 **Tasks to do:**
-* git checkout branch fault-tolerance
+
+**3.1** If you didn't finish the **API ateway** checkout branch fault-tolerance and rebuild the project.
 ```sh
 git checkout fault-tolerance
-```
-* Rebuild the project
-```sh
 docker-compose up --build
 ```
-* Stop one of the microservices (for example the `giphy-api`service) and confirm that the overall service keeps working even if no gifs are returned.
 
-    _Stop giphy-api container:_
-    ```sh
-    docker stop $(docker ps -a -q --filter ancestor=workshop-sinfo_giphy-api)
-    ```
-    _Start giphy-api container:_
+**3.2** Stop one of the microservices (for example the `giphy-api`service)
+Stop `giphy-api` container:
+```sh
+docker stop $(docker ps -a -q --filter ancestor=workshop-sinfo_giphy-api)
+```
 
-    ```sh
-    docker start $(docker ps -a -q --filter ancestor=workshop-sinfo_giphy-api)
-    ```
+![](https://raw.githubusercontent.com/pipedrive/workshop-sinfo/master/.png/workshop-sinfo-3.png "img3")
 
-* Change `news-api` GET /news endpoint to only return news from everywhere (currently it is only retrieving news from the
-_The New York Times_).
-    * remove _**sources: 'the-new-york-times'**_ from the request url.
-    ```js
-    const url = `https://newsapi.org/v2/everything?${qs.stringify({ q: searchQuery })}`;
-    ```
+**3.3** Confirm that the overall service keeps working even if no gifs are returned.
+
+**3.4** Restart `giphy-api` container:
+```sh
+docker start $(docker ps -a -q --filter ancestor=workshop-sinfo_giphy-api)
+```
+
+**3.5** Change `news-api` GET /news endpoint, currently retrieving news from the _The New York Times_ to return news from every source.
+
+* Remove ```sources: 'the-new-york-times'``` from the request url.
+
+```js
+const url = `https://newsapi.org/v2/everything?${qs.stringify({ q: searchQuery })}`;
+```
+
 
 ### 4.Service discover and health check <a id="part4"/>
-
 In a microservices architecture, the number of services is intended to grow up to a level where it impossible to rely on manual configuration for services to communicate with each other.
 Moreover services are constantly being scaled up and scaled down. This means that they will get available network IPs and assinged on the fly.
 
 The solution is **service discovery** and we are going to use Consul for that.
 
 **Tasks to do:**
-* git checkout branch service-discovery
+
+**4.1** If you didn't finish the **Fault tolerance** checkout branch service-discovery and rebuild the project.
 ```sh
 git checkout service-discovery
-```
-* Rebuild the project
-```sh
 docker-compose up --build
 ```
-* Open Consul ui and see that all the services are registered there.
-    * http://localhost:9500/ui/#/dc1/services/
 
-* Add health check endpoint to all BE services (`news-api`, `giphy-api`, `search-api`).
-    * Add the health-check route before any other route.
-    ```js
-    // health-check route
-	router.get('/health-check', (ctx) => ctx.status = 200);
-    ```
+**4.2** Add ``consul`` service  your service discover and ``registrator`` service.
 
-* Add health check configurations to each service **Dockerfile**
-    *  Add the following env variables:
-    ```docker
-    SERVICE_CHECK_HTTP=/health-check \
-    SERVICE_CHECK_INTERVAL=15s \
-    SERVICE_CHECK_TIMEOUT=2s  \
-    ```
-    * Stop the docker containers and rebuild the project.
-    ```sh
-    docker-compose down
-    docker-compose up --build
-    ```
+![](https://raw.githubusercontent.com/pipedrive/workshop-sinfo/master/.png/workshop-sinfo-4.png "img4")
 
-* Open Consul and check that all services are passing both on container health and service health check.
-    * http://localhost:9500/ui/#/dc1/services/search-api
+```yml
+# "infrastructure" services
+# --------------------------------------------------------------------------------------
 
-* Change the `giphy-api` health check reply with http code **503**. Wait a couple of seconds and check that the service is now failing on consul.
+# consul is the service that's responsbile for service discovery
+consul:
+  image: gliderlabs/consul-server
+  ports:
+    - 9500:8500
+  command: -bootstrap
+  environment:
+    SERVICE_8400_IGNORE: 'true'
+    SERVICE_8300_IGNORE: 'true'
+    SERVICE_8301_IGNORE: 'true'
+    SERVICE_8302_IGNORE: 'true'
+    SERVICE_8500_IGNORE: 'true'
+    SERVICE_8600_IGNORE: 'true'
+
+# container watcher that registers services in consul
+registrator:
+  image: gliderlabs/registrator
+  depends_on:
+    - consul
+  command: -internal consul://consul:8500
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock
+```
+
+**4.3** Open Consul UI and confirm that all the services are registered there. 
+* http://localhost:9500/ui/#/dc1/services/
+
+**4.4** Add health check endpoint to all BE services (`news-api`, `giphy-api`, `search-api`), before any other route.
+```js
+// health-check route
+router.get('/health-check', (ctx) => ctx.status = 200);
+```
+
+**4.5** Add health check configurations to each service **Dockerfile**
+```Dockerfile
+SERVICE_CHECK_HTTP=/health-check \
+SERVICE_CHECK_INTERVAL=15s \
+SERVICE_CHECK_TIMEOUT=2s  \
+```
+
+**4.6** Stop the docker containers and rebuild the project.
+```sh
+docker-compose down
+docker-compose up --build
+```
+
+**4.7** Open Consul UI and check that all services are passing both on container health and service health check.
+* http://localhost:9500/ui/#/dc1/services/search-api
+
+**4.8** Change the `giphy-api` health check endpoint to reply with http code **503**. Wait a couple of seconds and check that the service is now failing on consul.
 ```js
 ctx.status = 503;
 ```
 
+🏁
 ---
 
 💚 [Pipedrive](https://www.pipedrive.com) workshop
