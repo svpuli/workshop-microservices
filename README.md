@@ -9,6 +9,7 @@ The goal of this workshop is to provide a general overview about the development
 In order to successfully follow the workshop, the following tools/services must be previously installed:
  * [Git](https://git-scm.com/downloads) v2.14.1 or greater
  * [Docker](https://docs.docker.com/install/) v18.09.1 or greater
+ * [Docker Hub account](https://hub.docker.com/)
  * [Node](https://nodejs.org/en/download/) v10.15.0 or greater
     * Node can also be installed via nvm - [Linux and MacOs instructions](https://gist.github.com/d2s/372b5943bce17b964a79) & [Windows instructions](https://github.com/coreybutler/nvm-windows)
 
@@ -32,7 +33,7 @@ cd workshop-sinfo
 ## Workshop Structure
 
 **The workshop is devided into two main parts:**
- * Brief overview about Microservices and Docker - [slides](https://docs.google.com/presentation/d/1Y3XtRrfZ1vwey-KrdczxuqHkYFXNQIYxK9dDw2dXcJ4/edit?usp=sharing)
+ * Brief overview about Microservices and Docker - [slides](https://docs.google.com/presentation/d/1ZSlxhAOA7ZHsjPPJjgg7_MyN3QZetIMH4gLYxyRQ7U8/edit?usp=sharing)
  * Workshop - hands on:
     - [1. Decomposition](#part1)
     - [2. API gateway - limit exposure](#part2)
