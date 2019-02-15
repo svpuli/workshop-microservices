@@ -242,7 +242,7 @@ git checkout service-discovery
 docker-compose up --build
 ```
 
-**4.2** For service discovery, add the ``consul`` and ``registrator`` services
+**4.2** For service discovery, add the ``consul`` and ``registrator`` services to the docker-compose.yml
 
 ![](https://raw.githubusercontent.com/pipedrive/workshop-sinfo/master/.png/workshop-sinfo-4.png "img4")
 
@@ -283,7 +283,7 @@ registrator:
 router.get('/health-check', (ctx) => ctx.status = 200);
 ```
 
-**4.5** Add health check configurations to each service **Dockerfile**
+**4.5** Add health check configurations to each service **Dockerfile** `ENV`config 
 ```Dockerfile
 SERVICE_CHECK_HTTP=/health-check \
 SERVICE_CHECK_INTERVAL=15s \
