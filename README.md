@@ -166,7 +166,7 @@ docker-compose up --build
 
 **2.3** Edit `docker-compose.yml` and remove the port mapping for `news-api` and `giphy-api`.
 
-![](https://raw.githubusercontent.com/pipedrive/workshop-sinfo/master/.png/workshop-sinfo-2.png "img2")
+![](https://raw.githubusercontent.com/pipedrive/workshop-microservices/master/.png/workshop-sinfo-2.png "img2")
 
 ```yaml
   giphy-api:
