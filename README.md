@@ -26,7 +26,7 @@ node --version
 You will need to start by cloning this repo. From your terminal, type:
 
 ```sh
-git clone git@github.com:pipedrive/workshop-sinfo.git
+git clone git@github.com:pipedrive/workshop-microservices.git
 cd workshop-sinfo
 ```
 
